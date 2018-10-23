@@ -5,9 +5,9 @@ ProEvolutionQuidditch.preloadState = function(game) {
 ProEvolutionQuidditch.preloadState.prototype = {
 
     init: function(){
-        game.load.image('loading1', '/assets/images/text/loading1.png');
-        game.load.image('background0', '/assets/images/background/background.png');
-
+        game.add.sprite(0, 0, 'background0');
+        let loading = game.add.sprite(game.world.centerX, game.world.centerY, 'loading1');
+        loading.anchor.setTo(0.5);
     },
     preload: function() {
         game.load.image('harry', 'assets/images/harry.png');
@@ -44,8 +44,7 @@ ProEvolutionQuidditch.preloadState.prototype = {
     },
 
     create: function() {
-        game.add.sprite(50, 50, 'loading2');
-        game.add.sprite(0, 0, 'background1');
+        game.state.start('menuState');
     },
 
     update: function() {
