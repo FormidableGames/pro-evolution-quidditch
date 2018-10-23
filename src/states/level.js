@@ -1,103 +1,64 @@
 ProEvolutionQuidditch.levelState = function(game) {}
 
-var upKey;
-var downKey;
-var leftKey;
-var rightKey;
-
-var speed;
-var friction;
-var score;
-
-var harry;
-var snitch;
-var background;
-
-var text;
-
 ProEvolutionQuidditch.levelState.prototype = {
-
-    preload: function () {
-
-    },
 
     create: function () {
 
-        speed = 6;
-        friction = 0.5;
-        score = 0;
+        //Declaración de variables
+        this.background = game.add.tileSprite(0, 0, window.innerWidth, window.innerHeight, "stadium0");
 
-        background = game.add.tileSprite(0, 0, window.innerWidth, window.innerHeight, "stadium0");
+        this.harry = new Player(1);
+        this.draco = new Player(2);
+        this.players = [this.harry, this.draco];
 
-        harry = game.add.sprite(0, 0, 'harry');
-        harry.scale.setTo(0.5,0.5);
-        harry.anchor.x = 0.5;
-        harry.anchor.y = 0.5;
-
-        snitch = game.add.sprite(game.world.centerX, game.world.centerY, 'snitch');
-        snitch.scale.setTo(0.5,0.5);
-        snitch.anchor.x = 0.5;
-        snitch.anchor.y = 0.5;
+        this.snitch = game.add.sprite(game.world.centerX, game.world.centerY, 'snitch');
+        this.snitch.scale.setTo(0.5,0.5);
+        this.snitch.anchor.x = 0.5;
+        this.snitch.anchor.y = 0.5;
         let maxwidth = game.world._width;
         let maxheight = game.world._height;
         let min = 0;
-        snitch.x = (Math.random()*(maxwidth - min)) + min;
-        snitch.y = (Math.random()*(maxheight - min)) + min;
+        this.snitch.x = (Math.random()*(maxwidth - min)) + min;
+        this.snitch.y = (Math.random()*(maxheight - min)) + min;
 
-        text = game.add.text(15,15, "Score: 0", { font: "30px Consolas", fill: "#ffffff", align: "center", stroke: "black", strokeThickness: "5" });
+        this.text1 = game.add.text(15,15, "Score: 0", { font: "30px Consolas", fill: "#ffffff", align: "center", stroke: "black", strokeThickness: "5" });
+        this.text2 = game.add.text(400,15, "Score: 0", { font: "30px Consolas", fill: "#ffffff", align: "center", stroke: "black", strokeThickness: "5" });
 
-        upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
-        downKey = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
-        leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
-        rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+        game.physics.enable(this.snitch, Phaser.Physics.ARCADE);
 
-        game.physics.enable(harry, Phaser.Physics.ARCADE);
-        game.physics.enable(snitch, Phaser.Physics.ARCADE);
-
-        snitch.body.immovable = true;
-        harry.body.collideWorldBounds = true;
+        this.snitch.body.immovable = true;
     },
 
     update: function () {
-
-        if (upKey.isDown) {
-            harry.y -= speed;
+        for(let i = 0; i < this.players.length; i++){
+            //Actualización de posiciones
+            this.players[i].update();
+            //Detección de colisiones
+            game.physics.arcade.collide(this.players[i].sprite, this.snitch, function(){this.collisionHandler(this.players[i])}, null, this);
         }
-        else if (downKey.isDown) {
-            harry.y += speed;
-        }
-
-        if (leftKey.isDown) {
-            harry.x -= speed;
-        }
-        else if (rightKey.isDown) {
-            harry.x += speed;
-        }
-
-        game.physics.arcade.collide(harry, snitch, collisionHandler, null, this);
 
     },
 
     render: function () {
-        game.debug.body(harry);
-        game.debug.body(snitch);
+        //Pintado
+        game.debug.body(this.harry.sprite);
+        game.debug.body(this.snitch);
+    },
+
+    collisionHandler: function(player) {
+        player.score++;
+        if (player.score >= 3) {
+            // Esto hay que cambiarlo
+            this.text1.text = "Win!";
+        } else {
+            //Repensar textos
+            this.text1.text = "Score: " + this.players[0].score;
+            this.text2.text = "Score: " + this.players[1].score;
+            let maxwidth = game.world._width;
+            let maxheight = game.world._height;
+            let min = 0;
+            this.snitch.x = (Math.random()*(maxwidth - min)) + min;
+            this.snitch.y = (Math.random()*(maxheight - min)) + min;
+        }
     }
-}
-
-function collisionHandler (obj1, obj2) {
-    
-    score++;
-
-    if (score >= 3) {
-        text.text = "Win!";
-    } else {
-        text.text = "Score: " + score;
-        let maxwidth = game.world._width;
-        let maxheight = game.world._height;
-        let min = 0;
-        snitch.x = (Math.random()*(maxwidth - min)) + min;
-        snitch.y = (Math.random()*(maxheight - min)) + min;
-    }
-    
-
 }
