@@ -8,7 +8,11 @@ ProEvolutionQuidditch.preloadState.prototype = {
         game.add.sprite(0, 0, 'background0');
         let loading = game.add.sprite(game.world.centerX, game.world.centerY, 'loading1');
         loading.anchor.setTo(0.5);
+
+        loading.alpha = 0;
+        game.add.tween(loading).to( { alpha: 1 }, 2000, Phaser.Easing.Linear.None, true, 0, 1000, true);
     },
+
     preload: function() {
         game.load.image('harry', 'assets/images/harry.png');
         game.load.image('draco', 'assets/images/draco.png');
