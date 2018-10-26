@@ -1,19 +1,36 @@
 ProEvolutionQuidditch.preloadState = function(game) {
-
+    this.load1;
+    this.load2;
+    this.text;
 }
 
 ProEvolutionQuidditch.preloadState.prototype = {
 
-    init: function(){
-        game.add.sprite(0, 0, 'background0');
-        let loading = game.add.sprite(game.world.centerX, game.world.centerY, 'loading1');
-        loading.anchor.setTo(0.5);
-
-        loading.alpha = 0;
-        game.add.tween(loading).to( { alpha: 1 }, 2000, Phaser.Easing.Linear.None, true, 0, 1000, true);
+    preload: function() {
+        this.load.image('background0', 'assets/images/background/background.png');
+        this.load.image('loading1', 'assets/images/text/loading1.png');
+        this.load.image('loading2', 'assets/images/text/loading2.png');
     },
 
-    preload: function() {
+    create: function() {
+        this.add.sprite(0, 0, 'background0');
+
+        this.load1 = game.add.sprite(game.world.centerX, game.world.centerY, 'loading1');
+        this.load1.anchor.setTo(0.5);
+
+        this.load2 = game.add.sprite(game.world.centerX, game.world.centerY, 'loading2');
+        this.load2.anchor.setTo(0.5);
+        this.load2.alpha = 0;
+
+        this.text = game.add.text(game.world.centerX - 25, game.world.centerY + 50, '0%', { fill: '#aeaeae', font: 'bold 20pt Comic Sans MS' });
+
+        this.load.onFileComplete.add(this.fileComplete, this);
+        this.load.onLoadComplete.add(this.loadComplete, this);
+
+        this.loadAssets();
+    },
+
+    loadAssets: function(){
         game.load.image('harry', 'assets/images/harry.png');
         game.load.image('draco', 'assets/images/draco.png');
         game.load.image('referee', 'assets/images/referee.png');
@@ -26,7 +43,6 @@ ProEvolutionQuidditch.preloadState.prototype = {
         game.load.image('stadium1', 'assets/images/background/stadium2.png');
         game.load.image('stadium2', 'assets/images/background/stadium3.png');  
         game.load.image('stadium3', 'assets/images/background/stadium4.png');
-        game.load.image('loading2', 'assets/images/text/loading2.png');
         game.load.image('player1', 'assets/images/text/player1.png');
         game.load.image('player2', 'assets/images/text/player2.png');
         game.load.image('press1', 'assets/images/text/press1.png');
@@ -45,13 +61,20 @@ ProEvolutionQuidditch.preloadState.prototype = {
         game.load.audio('2', 'assets/audio/2.ogg');
         game.load.audio('powerUp9', 'assets/audio/powerUp9.ogg');
         game.load.audio('youwin', 'assets/audio/you_win.ogg');
-    },
 
-    create: function() {
-        game.state.start('menuState');
+        game.load.start();
     },
 
     update: function() {
 
+    },
+        
+    fileComplete: function(progress, cacheKey, success, totalLoaded, totalFiles) {
+        this.text.setText(progress + "%");
+        this.load2.alpha = progress/100;
+    },
+    
+    loadComplete: function() {
+        this.state.start('menuState');
     }
 }
