@@ -7,6 +7,7 @@ class Player{
         
         if(numberOfPlayer == 1){
             this.sprite = game.add.sprite(0, 0, 'harry');
+            this.sprite.y = game.world.centerY - 100;
             
             this.upKey = game.input.keyboard.addKey(Phaser.Keyboard.W);
             this.downKey = game.input.keyboard.addKey(Phaser.Keyboard.S);
@@ -15,6 +16,7 @@ class Player{
 
         }else{
             this.sprite = game.add.sprite(0, 0, 'draco');
+            this.sprite.y = game.world.centerY + 100;
             
             this.upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
             this.downKey = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
@@ -24,6 +26,7 @@ class Player{
         }
 
         this.sprite.scale.setTo(0.5,0.5);
+        this.sprite.x = this.sprite.width;
         this.sprite.anchor.x = 0.5;
         this.sprite.anchor.y = 0.5;
 

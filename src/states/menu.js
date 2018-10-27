@@ -21,6 +21,8 @@ ProEvolutionQuidditch.menuState = function(game) {
 
     this.tween1;
     this.tween2;
+
+    this.tween_finished = true;
 }
 ProEvolutionQuidditch.menuState.prototype = {
     init: function(){
@@ -108,6 +110,7 @@ ProEvolutionQuidditch.menuState.prototype = {
         this.tween1.onComplete.add(function(){
             this.player2.x = this.py_txt_out_left[0]-this.player2.width;
             this.one_player = true;
+            this.tween_finished = true;
         }, this);
 
     },
@@ -133,24 +136,28 @@ ProEvolutionQuidditch.menuState.prototype = {
         this.tween1.onComplete.add(function(){
             this.player1.x = this.py_txt_out_left[0]-this.player1.width;
             this.one_player = false;
+            this.tween_finished = true;
         }, this);
 
     },
 
     update: function() {
-        if (this.S.isDown)
+        if (this.S.isDown && this.tween_finished)
         {
+            game.one_player = this.one_player;
             game.state.start('introState');
         }
         else if(this.key1.isDown || this.key1_numpad.isDown)
         {
             if(!this.one_player){
+                this.tween_finished = false;
                 this.showPlayer1();
             }
         }
         else if(this.key2.isDown || this.key2_numpad.isDown)
         {
             if(this.one_player){
+                this.tween_finished = false;
                 this.showPlayer2();
             }
         }

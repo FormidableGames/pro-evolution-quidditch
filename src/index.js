@@ -8,3 +8,6 @@ game.state.add('levelState', ProEvolutionQuidditch.levelState)
 game.state.add('endingState', ProEvolutionQuidditch.endingState)
   
 game.state.start('bootState')
+
+game.one_player = true;
+game.level = 0;
