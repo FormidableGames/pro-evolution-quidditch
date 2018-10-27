@@ -9,19 +9,31 @@ ProEvolutionQuidditch.levelState.prototype = {
         //Declaración de variables
         this.background = game.add.tileSprite(0, 0, window.innerWidth, window.innerHeight, "stadium0");
 
+        //Salir del juego
+        this.return = game.add.sprite(game.world._width-15, 15, 'return');
+        this.return.anchor.setTo(1.0, 0.0);
+        this.return.inputEnabled = true;
+        this.return.scale.setTo(0.25);
+        this.return.alpha = 0.6;
+        this.return.events.onInputDown.add(function(){game.state.start('menuState')}, this);
+        this.return.events.onInputOver.add(function(item){item.alpha = 1;}, this);
+        this.return.events.onInputOut.add(function(item){item.alpha = 0.6;}, this);
+
+        //Jugador/es
         this.harry = new Player(1);
         this.players = [this.harry];
-        this.text1 = game.add.text(15,15, "Harry: 0", { font: "30px Consolas", fill: "#ffffff", align: "center", stroke: "black", strokeThickness: "5" });
+        this.text1 = game.add.text(15,15, this.harry.sprite.key+"'s score: 0", { font: "30px Consolas", fill: "#b30000", align: "center", stroke: "black", strokeThickness: "5" });
         this.score_texts = [this.text1];
 
         if(!game.one_player){
             this.draco = new Player(2);
             this.players.push(this.draco);
-            this.text2 = game.add.text(game.world.centerX+15 ,15, "Dracoscore: 0", { font: "30px Consolas", fill: "#ffffff", align: "center", stroke: "black", strokeThickness: "5" });
+            this.text2 = game.add.text(15, 65, this.draco.sprite.key+"'s score: 0", { font: "30px Consolas", fill: "#009900", align: "center", stroke: "black", strokeThickness: "5" });
             this.score_texts.push(this.text2);
     
         }
 
+        //Snitch
         this.snitch = game.add.sprite(0, 0, 'snitch');
         this.snitch.scale.setTo(0.5,0.5);
         this.snitch.anchor.set(0.5);
@@ -59,11 +71,10 @@ ProEvolutionQuidditch.levelState.prototype = {
         player.score++;
         
         if (player.score >= this.maxScore) {
-            text.text = "Win!";
+            text.text = player.sprite.key+" wins!";
             this.snitch.x = -50;
         } else {
-            if(player.sprite.key=='harry') text.text = "Harry: " + player.score;
-            else text.text = "Dracoscore: " + player.score;
+            text.text = player.sprite.key+"'s score: "+ player.score;
 
             //Reposicionar la snitch
             let maxwidth = game.world._width;

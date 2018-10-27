@@ -26,6 +26,7 @@ ProEvolutionQuidditch.menuState = function(game) {
 }
 ProEvolutionQuidditch.menuState.prototype = {
     init: function(){
+        
         game.add.sprite(0, 0, 'background0');
         
         this.top_loc = [game.world.centerX, 50];
@@ -81,6 +82,13 @@ ProEvolutionQuidditch.menuState.prototype = {
             this.player2.scale.setTo(0.65);
         //
         /////////////////////////////
+
+        if(!game.one_player){
+            this.tween_finished = false;
+            this.showPlayer2();
+        }
+
+
 
         this.S = game.input.keyboard.addKey(Phaser.Keyboard.S);
         this.key1 = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
@@ -146,6 +154,7 @@ ProEvolutionQuidditch.menuState.prototype = {
         {
             game.one_player = this.one_player;
             game.level = game.rnd.integerInRange(0,1);
+            //game.level = 0;
             game.state.start('introState');
         }
         else if(this.key1.isDown || this.key1_numpad.isDown)
