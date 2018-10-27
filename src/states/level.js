@@ -4,7 +4,8 @@ ProEvolutionQuidditch.levelState.prototype = {
 
     create: function () {
 
-        console.log("nivel: "+game.level+", 1 jugador: "+game.one_player);
+        this.maxScore = 3;
+        
         //Declaración de variables
         this.background = game.add.tileSprite(0, 0, window.innerWidth, window.innerHeight, "stadium0");
 
@@ -21,17 +22,18 @@ ProEvolutionQuidditch.levelState.prototype = {
     
         }
 
-        this.snitch = game.add.sprite(game.world.centerX, game.world.centerY, 'snitch');
+        this.snitch = game.add.sprite(0, 0, 'snitch');
         this.snitch.scale.setTo(0.5,0.5);
-        this.snitch.anchor.x = 0.5;
-        this.snitch.anchor.y = 0.5;
+        this.snitch.anchor.set(0.5);
         let maxwidth = game.world._width;
         let maxheight = game.world._height;
         let min = 0;
         this.snitch.x = (Math.random()*(maxwidth - min)) + min;
         this.snitch.y = (Math.random()*(maxheight - min)) + min;
 
-        
+        this.maxScore_text = game.add.text(game.world.centerX, game.world.bottom-50, "Snitches to get: "+this.maxScore, { font: "30px Consolas", fill: "#ffffff", align: "center", stroke: "black", strokeThickness: "5" });
+        this.maxScore_text.anchor.set(0.5);
+
         game.physics.enable(this.snitch, Phaser.Physics.ARCADE);
 
         this.snitch.body.immovable = true;
@@ -56,7 +58,7 @@ ProEvolutionQuidditch.levelState.prototype = {
     collisionHandler: function(player, text) {
         player.score++;
         
-        if (player.score >= 3) {
+        if (player.score >= this.maxScore) {
             text.text = "Win!";
             this.snitch.x = -50;
         } else {

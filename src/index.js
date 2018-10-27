@@ -5,6 +5,7 @@ game.state.add('preloadState', ProEvolutionQuidditch.preloadState)
 game.state.add('menuState', ProEvolutionQuidditch.menuState)
 game.state.add('introState', ProEvolutionQuidditch.introState)
 game.state.add('levelState', ProEvolutionQuidditch.levelState)
+game.state.add('levelState2', ProEvolutionQuidditch.levelState2)
 game.state.add('endingState', ProEvolutionQuidditch.endingState)
   
 game.state.start('bootState')

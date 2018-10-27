@@ -145,6 +145,7 @@ ProEvolutionQuidditch.menuState.prototype = {
         if (this.S.isDown && this.tween_finished)
         {
             game.one_player = this.one_player;
+            game.level = game.rnd.integerInRange(0,1);
             game.state.start('introState');
         }
         else if(this.key1.isDown || this.key1_numpad.isDown)
