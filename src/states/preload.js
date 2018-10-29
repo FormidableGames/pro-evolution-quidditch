@@ -53,6 +53,8 @@ ProEvolutionQuidditch.preloadState.prototype = {
         game.load.image('vs', 'assets/images/text/vs.png');
         game.load.image('winner', 'assets/images/text/winner.png');
         game.load.image('cleangame', 'assets/images/text/cleangame.png');
+
+        game.load.spritesheet('startButtons', 'assets/images/text/startButtons.png', 434, 49);
         
         game.load.audio('creepy', 'assets/music/bensound-creepy.mp3');
         game.load.audio('epic', 'assets/music/bensound-epic.mp3');

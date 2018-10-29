@@ -51,7 +51,11 @@ ProEvolutionQuidditch.menuState.prototype = {
         harry2.scale.setTo(-0.55,0.55);
         harry2.anchor.setTo(0.5)
 
-        var start = game.add.sprite(game.world.centerX, game.world.bottom-50, 'start');
+        /*var start = game.add.sprite(game.world.centerX, game.world.bottom-50, 'start');
+        start.anchor.setTo(0.5)
+        start.scale.setTo(0.75);*/
+
+        var start = game.add.button(game.world.centerX, game.world.bottom-50, 'startButtons', this.startOnClick, this, 1, 0);
         start.anchor.setTo(0.5)
         start.scale.setTo(0.75);
 
@@ -90,12 +94,25 @@ ProEvolutionQuidditch.menuState.prototype = {
 
 
 
-        this.S = game.input.keyboard.addKey(Phaser.Keyboard.S);
+        //this.S = game.input.keyboard.addKey(Phaser.Keyboard.S);
         this.key1 = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
         this.key2 = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
         this.key1_numpad = game.input.keyboard.addKey(Phaser.Keyboard.NUMPAD_1);
         this.key2_numpad = game.input.keyboard.addKey(Phaser.Keyboard.NUMPAD_2);
     },
+
+
+    startOnClick: function() {
+
+        if (this.tween_finished){
+            game.one_player = this.one_player;
+            game.level = game.rnd.integerInRange(0,1);
+            //game.level = 0;
+            game.state.start('introState');
+        }
+
+    },
+
 
     showPlayer1: function(){
         
@@ -150,14 +167,14 @@ ProEvolutionQuidditch.menuState.prototype = {
     },
 
     update: function() {
-        if (this.S.isDown && this.tween_finished)
+       /*if (this.S.isDown && this.tween_finished)
         {
             game.one_player = this.one_player;
             game.level = game.rnd.integerInRange(0,1);
             //game.level = 0;
             game.state.start('introState');
-        }
-        else if(this.key1.isDown || this.key1_numpad.isDown)
+        }*/
+        if(this.key1.isDown || this.key1_numpad.isDown)
         {
             if(!this.one_player){
                 this.tween_finished = false;
