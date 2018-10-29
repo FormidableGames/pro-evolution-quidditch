@@ -7,7 +7,18 @@ ProEvolutionQuidditch.levelState.prototype = {
         this.maxScore = 3;
         
         //Declaración de variables
-        this.background = game.add.tileSprite(0, 0, window.innerWidth, window.innerHeight, "stadium0");
+        var numStadiums = 4; // Numero total de fondos
+        var randomBackground = Math.floor(Math.random()*(numStadiums-1));
+        switch (randomBackground) {
+            case 0: this.background = game.add.tileSprite(0, 0, window.innerWidth, window.innerHeight, "stadium0");
+            break;
+            case 1: this.background = game.add.tileSprite(0, 0, window.innerWidth, window.innerHeight, "stadium1");
+            break;
+            case 2: this.background = game.add.tileSprite(0, 0, window.innerWidth, window.innerHeight, "stadium2");
+            break;
+            case 3: this.background = game.add.tileSprite(0, 0, window.innerWidth, window.innerHeight, "stadium3");
+            break;
+        }
 
         //Salir del juego
         this.return = game.add.sprite(game.world._width-15, 15, 'return');

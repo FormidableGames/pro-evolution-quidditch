@@ -46,10 +46,7 @@ ProEvolutionQuidditch.introState.prototype = {
 
     update: function () {
         if (this.spaceKey.isDown) {
-            if(game.level == 0)
             this.state.start('levelState');
-            else if(game.level == 1)
-            this.state.start('levelState2');
         } 
 
         // Hacer que "el fondo se mueva"
