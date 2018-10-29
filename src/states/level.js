@@ -2,7 +2,15 @@ ProEvolutionQuidditch.levelState = function(game) {}
 
 ProEvolutionQuidditch.levelState.prototype = {
 
+    preload: function () {
+        game.levelMusic = game.add.audio('epic', 1, true);
+        this.catchSound = game.add.audio('powerUp9', 1, false);
+        this.youWinSound = game.add.audio('youwin', 1, false);
+    },
+
     create: function () {
+
+        game.levelMusic.play();
 
         this.maxScore = 3;
         
@@ -84,6 +92,7 @@ ProEvolutionQuidditch.levelState.prototype = {
         if (player.score >= this.maxScore) {
             text.text = player.sprite.key+" wins!";
             this.snitch.x = -50;
+            game.time.events.add(Phaser.Timer.SECOND * 2.5, function () { this.state.start('endingState', true, false, player.sprite.key); }, this);
         } else {
             text.text = player.sprite.key+"'s score: "+ player.score;
 
@@ -94,5 +103,9 @@ ProEvolutionQuidditch.levelState.prototype = {
             this.snitch.x = (Math.random()*(maxwidth - min)) + min;
             this.snitch.y = (Math.random()*(maxheight - min)) + min;
         }
+    },
+
+    shutdown: function () {
+        game.levelMusic.stop();
     }
 }
